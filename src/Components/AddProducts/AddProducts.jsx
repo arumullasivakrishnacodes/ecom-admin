@@ -60,6 +60,8 @@ const AddProducts = () => {
         </div>
 
       </div>
+
+      <button className='addproduct'>Add Product</button>
       
     </div>
   )
