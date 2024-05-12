@@ -11,6 +11,7 @@ import AddUser from './Components/AddUser/AddUser';
 import UserList from './Components/UsersList/UserList';
 import Overview from './Components/Overview/Overview';
 import Analytics from './Components/Analytics/Analytics';
+import profile from '../src/img/profile.png'
 
 function App() {
   return (
@@ -78,6 +79,11 @@ function App() {
       </div>
 
       <div className='col-9'>
+        <div className='main-search-container'>
+          <i class="bi bi-search"></i>
+          <input type='text' placeholder='Search here..'/>
+          <img src={profile} alt='profile' />
+        </div>
         <Routes>
           <Route path='/' element={<Dashboard />} />
           <Route path='/overview' element={<Overview />} />
