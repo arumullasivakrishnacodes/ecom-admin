@@ -9,10 +9,45 @@ const AddProducts = () => {
     setProductImage(event.target.files[0]);
   }
 
-  const handleAddProduct = () => {
+  const handleAddProduct = async () => {
     let prdname = document.getElementById('prdname').value;
     let prdimg = document.getElementById('prdimg').value;
-    alert(prdimg)
+    let prddesc = document.getElementById('prddesc').value;
+    let prdlistprice = document.getElementById('prdlistprice').value;
+    let prdsaleprice = document.getElementById('prdsaleprice').value;
+    let prdcategory = document.getElementById('category').value;
+    let prdaval = document.getElementById('prdaval').value;
+    let maskimg = prdimg.split('\product')[1]
+
+    const productobj = {
+      'name': prdname,
+      'description': prddesc,
+      'image': prdcategory === 'Groceries' ? 'https://ik.imagekit.io/ecommerceapi/groceries/product' + maskimg : 'https://ik.imagekit.io/ecommerceapi/Assets/product' + maskimg,
+      'category': prdcategory,
+      'sale_price': prdsaleprice,
+      'list_price': prdlistprice,
+      'availability': prdaval
+    }
+
+    if (prdname === '' || prdimg === '' || prddesc === '' || prdlistprice === '' || prdsaleprice === '' || prdcategory === '' || prdaval === '') {
+      setErrorReavled(true)
+      setTimeout(() => {
+        setErrorReavled(false);
+      }, 2000);
+    } else {
+      setErrorReavled(false)
+
+      await fetch('https://ecom-api-tau.vercel.app/addproduct', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify(productobj),
+        }).then((res) => res.json()).then((data) => {
+          data.success ? alert('Product Added'): alert('Failed')
+      });
+    }
   }
 
   return (
@@ -36,8 +71,13 @@ const AddProducts = () => {
         </div>
 
         <div className="product-detail-item">
-          <label htmlFor="productname">Price <span className='required'>*</span></label>
-          <input type="number" id='prdprice' placeholder='Product Price ...'/>
+          <label htmlFor="productname">List Price <span className='required'>*</span></label>
+          <input type="number" id='prdlistprice' placeholder='Product ListPrice ...'/>
+        </div>
+
+        <div className="product-detail-item">
+          <label htmlFor="productname">Sale Price <span className='required'>*</span></label>
+          <input type="number" id='prdsaleprice' placeholder='Product SalePrice ...'/>
         </div>
 
         <div className="product-detail-item">
